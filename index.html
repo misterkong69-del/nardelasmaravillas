@@ -1,144 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Posta 1001 — Archivo Clandestino Mardelwood (MDW)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: #0b131a;
-            color: #d8f8ff;
-            font-family: 'Courier Prime', monospace;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .archivo-mdw-container {
-            background-color: #111d28;
-            padding: 25px;
-            border: 4px solid #008b8b;
-            border-radius: 8px;
-            box-shadow: 0 0 35px rgba(0, 255, 255, 0.25);
-            max-width: 520px;
-            width: 100%;
-            box-sizing: border-box;
-            text-align: center;
-        }
-        .archivo-header {
-            border-bottom: 2px dashed #00ffff;
-            padding-bottom: 12px;
-            margin-bottom: 15px;
-        }
-        .archivo-header .tag {
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            color: #00ffff;
-            text-transform: uppercase;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(0,255,255,0.5);
-        }
-        .archivo-header h2 {
-            font-family: 'Special Elite', cursive;
-            font-size: 1.3rem;
-            margin: 8px 0 0 0;
-            color: #ffffff;
-            text-shadow: 0 0 8px rgba(0,255,255,0.7);
-        }
-        .estampiya-frame {
-            background: #0b131a;
-            padding: 10px;
-            border: 2px solid #00ffff;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            box-shadow: inset 0 0 15px rgba(0,255,255,0.15);
-        }
-        .estampiya-frame img {
-            width: 100%;
-            height: auto;
-            border: 1px solid #008b8b;
-            border-radius: 3px;
-            display: block;
-        }
-        .metadatos-caja {
-            background: #070c10;
-            border-left: 3px solid #00ffff;
-            padding: 12px;
-            font-size: 0.8rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            text-align: left;
-            color: #a5f3fc;
-        }
-        .btn-descarga-mdw {
-            background-color: #00ffff;
-            color: #070c10;
-            border: none;
-            padding: 14px;
-            font-family: 'Special Elite', cursive;
-            font-weight: bold;
-            font-size: 0.95rem;
-            cursor: pointer;
-            width: 100%;
-            border-radius: 4px;
-            box-shadow: 0 0 15px rgba(0,255,255,0.4);
-            transition: all 0.3s ease;
-        }
-        .btn-descarga-mdw:hover {
-            background-color: #ffffff;
-            box-shadow: 0 0 25px rgba(0,255,255,0.8);
-        }
-        .archivo-footer {
-            font-size: 0.7rem;
-            color: #67e8f9;
-            margin-top: 15px;
-            border-top: 1px dashed #005f73;
-            padding-top: 10px;
-            font-family: 'Special Elite', cursive;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="archivo-mdw-container">
-        <div class="archivo-header">
-            <div class="tag">POSTA DEL MILISEGUNDO — MDW 1001</div>
-            <h2>ESTAMPIYA! DE TIEMPO</h2>
-        </div>
-
-        <div class="estampiya-frame">
-            <!-- Imagen enlazada dinámicamente desde el puente de Firebase/GitHub -->
-            <img id="imagen-base" src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/estampiyas/Estanpiya_Geo_kongggg.jpg" alt="EstampiYA! de Tiempo" crossorigin="anonymous">
-        </div>
-
-        <div class="metadatos-caja">
-            <div><strong>Nodo Activo:</strong> Posta 1001 (Mardelwood)</div>
-            <div><strong>Sello:</strong> VentaniYA! Atómico GPS Verificado</div>
-            <div><strong>Línea de Tiempo:</strong> <span id="txt-tiempo" style="color: #00ffff; font-weight: bold; text-shadow: 0 0 4px rgba(0,255,255,0.8);">Sincronizando...</span></div>
-            <div><strong>Hash ID Base:</strong> <span id="hash-display">MDW-1015F9B6-34FAF</span></div>
-        </div>
-
-        <button class="btn-descarga-mdw" onclick="descargarEstampiyaConSelloNeon3D()">
-            📥 DESCARGAR ESTAMPIYA CON SELLO ATÓMICO (MS)
-        </button>
-
-        <div class="archivo-footer">
-            Sistema Inalterable de Archivo Histórico Clandestino
-        </div>
-    </div>
-
-    <!-- Canvas oculto para procesar el diseño con efecto 3D y celeste atómico neón -->
-    <canvas id="canvas-sello" style="display:none;"></canvas>
-
-    <!-- Importación y ejecución de Firebase SDKs -->
+<!-- Script actualizado para leer múltiples estampiyas gratis desde Firestore -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getStorage } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDnLtvnb5IW1X-HbuC3uC0Dcf6BaojmndE",
@@ -151,18 +14,14 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
         const db = getFirestore(app);
-        const storage = getStorage(app);
-        
-        console.log("Firebase conectado correctamente a la Posta 1001 (MDW).");
 
-        // Puente automático: Buscar metadatos e imagen desde Firestore
-        async function cargarEstampiyaDesdeFirebase() {
+        async function cargarEstampiyasGratis() {
             try {
                 const querySnapshot = await getDocs(collection(db, "estampiyas_mdw"));
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
+                    // Si hay imagen en Firestore (apuntando a GitHub), la cargamos
                     if(data.imagen_url) {
                         document.getElementById('imagen-base').src = data.imagen_url;
                     }
@@ -171,74 +30,9 @@
                     }
                 });
             } catch (error) {
-                console.error("Modo offline o error al conectar con Firestore (usando valores por defecto):", error);
+                console.log("Modo local activo.");
             }
         }
 
-        window.onload = cargarEstampiyaDesdeFirebase;
+        window.onload = cargarEstampiyasGratis;
     </script>
-
-    <script>
-        // Actualizar reloj atómico de milisegundos en pantalla
-        function actualizarRelojAtomico() {
-            const ahora = new Date();
-            const fechaStr = ahora.toLocaleDateString('es-AR');
-            const h = String(ahora.getHours()).padStart(2, '0');
-            const m = String(ahora.getMinutes()).padStart(2, '0');
-            const s = String(ahora.getSeconds()).padStart(2, '0');
-            const ms = String(ahora.getMilliseconds()).padStart(3, '0');
-            document.getElementById('txt-tiempo').innerText = `${fechaStr} ${h}:${m}:${s}.${ms}`;
-        }
-        setInterval(actualizarRelojAtomico, 50);
-
-        function descargarEstampiyaConSelloNeon3D() {
-            const img = document.getElementById('imagen-base');
-            const canvas = document.getElementById('canvas-sello');
-            const ctx = canvas.getContext('2d');
-
-            canvas.width = img.naturalWidth || 1200;
-            canvas.height = img.naturalHeight || 800;
-
-            // Dibujar la estampa base
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-            // Obtener datos exactos del milisegundo de descarga
-            const ahora = new Date();
-            const fStr = ahora.toLocaleDateString('es-AR');
-            const hStr = String(ahora.getHours()).padStart(2, '0');
-            const mStr = String(ahora.getMinutes()).padStart(2, '0');
-            const sStr = String(ahora.getSeconds()).padStart(2, '0');
-            const msStr = String(ahora.getMilliseconds()).padStart(3, '0');
-            const timestampCompleto = `${fStr} ${hStr}:${mStr}:${sStr}.${msStr}`;
-            const hashAleatorio = "MDW-" + Math.random().toString(36).substring(2, 10).toUpperCase() + "-1001";
-
-            // Sello con Celeste Atómico Brillante (#00ffff) y sombra 3D profunda
-            ctx.fillStyle = "#00ffff"; 
-            ctx.font = "bold 32px 'Courier New', monospace";
-            
-            ctx.shadowColor = "rgba(0, 0, 0, 0.95)";
-            ctx.shadowOffsetX = 6;
-            ctx.shadowOffsetY = 6;
-            ctx.shadowBlur = 12;
-
-            const posX = canvas.width - 780;
-            const posY = canvas.height - 240;
-
-            ctx.fillText(`FECHA: ${timestampCompleto}`, posX, posY);
-            ctx.fillText(`HASH-Q: ${hashAleatorio}`, posX, posY + 52);
-
-            // Sub-sello oficial en blanco puro destacado
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 26px 'Courier New', monospace";
-            ctx.fillText("ESTAMPIYA! DE TIEMPO — POSTA 1001", posX, posY + 110);
-
-            // Disparar descarga directa del JPG resultante
-            const enlace = document.createElement('a');
-            enlace.download = `ESTAMPIYA_TIEMPO_1001_${ahora.getTime()}.jpg`;
-            enlace.href = canvas.toDataURL('image/jpeg', 0.98);
-            enlace.click();
-        }
-    </script>
-
-</body>
-</html>
