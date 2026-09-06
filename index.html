@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posta 1001 — Archivo EstampiYA! (MDW)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        .archivo-mdw-container {
+            font-family: 'Courier Prime', monospace;
+            background-color: #2b1d11;
+            color: #f4ebd0;
+            padding: 25px;
+            border: 4px solid #4a2e18;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.8);
+            max-width: 450px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        .archivo-header {
+            text-align: center;
+            border-bottom: 2px dashed #bc6c25;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+        .archivo-header .tag {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: #e0a96d;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .archivo-header h2 {
+            font-family: 'Special Elite', cursive;
+            font-size: 1.3rem;
+            margin: 8px 0 0 0;
+            color: #faedcd;
+        }
+        .estampiya-frame {
+            background: #1a110b;
+            padding: 12px;
+            border: 2px solid #bc6c25;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .estampiya-frame img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #4a2e18;
+            border-radius: 3px;
+            display: block;
+        }
+        .metadatos-caja {
+            background: #1a110b;
+            border-left: 3px solid #bc6c25;
+            padding: 10px 12px;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .metadatos-caja div {
+            margin-bottom: 4px;
+        }
+        .btn-descarga-mdw {
+            background-color: #bc6c25;
+            color: #2b1d11;
+            border: none;
+            padding: 12px;
+            font-family: 'Special Elite', cursive;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .btn-descarga-mdw:hover {
+            background-color: #dda15e;
+        }
+        .archivo-footer {
+            text-align: center;
+            font-size: 0.65rem;
+            color: #d4a373;
+            margin-top: 15px;
+            border-top: 1px dashed #4a2e18;
+            padding-top: 10px;
+            font-family: 'Special Elite', cursive;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="archivo-mdw-container">
+        <div class="archivo-header">
+            <div class="tag">NODO OFICIAL — POSTA 1001 (MDW)</div>
+            <h2>ARCHIVOS CLANDESTINOS MARDELWOOD</h2>
+        </div>
+
+        <div class="estampiya-frame">
+            <!-- Acá va el enlace directo de la imagen alojada en GitHub o Firebase -->
+            <img src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/image_4afc2b34.jpg" alt="EstampiYA: Mar de las Maravillas 1969">
+        </div>
+
+        <div class="metadatos-caja">
+            <div><strong>Pieza:</strong> EstampiYA! N° 1001 — Mar de las Maravillas</div>
+            <div><strong>Emisión:</strong> 1969 (Era Psicotrópica)</div>
+            <div><strong>Hash ID:</strong> <span id="hash-display">mdw-1001-f4c2b34</span></div>
+            <div><strong>Geolocalización:</strong> -38.0023, -57.5575 (MDW)</div>
+            <div><strong>Estado:</strong> Sincronizado en la Nube</div>
+        </div>
+
+        <button class="btn-descarga-mdw" onclick="descargarEstampiyaConMetadatos()">
+            📥 DESCARGAR CON CERTIFICADO (MS)
+        </button>
+
+        <div class="archivo-footer">
+            Sistema de Verificación Atómica — Mardelwood 2026
+        </div>
+    </div>
+
+    <script>
+        function descargarEstampiyaConMetadatos() {
+            const timestampMilisegundos = Date.now();
+            const hashUnico = "mdw-1001-" + Math.random().toString(36).substring(2, 11);
+            
+            // Contenido del certificado digital que acompaña la descarga
+            const contenidoCertificado = `=========================================
+CERTIFICADO DE DESCARGA — POSTA 1001 (MDW)
+=========================================
+Proyecto: Mardelwood / EstampiYA!
+Pieza: Mar de las Maravillas (1969)
+Timestamp Atómico (Ms): ${timestampMilisegundos}
+Hash de Verificación: ${hashUnico}
+Nodo Geodésico: -38.0023, -57.5575
+Sello: Red Clandestina de Archivo Histórico
+=========================================`;
+
+            // Generar archivo de texto con el certificado milimétrico
+            const blob = new Blob([contenidoCertificado], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `CERTIFICADO_POSTA1001_MDW_${timestampMilisegundos}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert("¡Certificado y metadatos de la Posta 1001 descargados con éxito! Milisegundo registrado: " + timestampMilisegundos);
+        }
+    </script>
+
+</body>
+</html>
