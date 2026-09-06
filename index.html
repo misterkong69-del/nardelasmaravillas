@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Posta 1001 — Archivo EstampiYA! (MDW)</title>
+    <title>Posta 1001 — EstampiYA! Sello Atómico (MDW)</title>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
     <style>
         .archivo-mdw-container {
@@ -14,12 +14,12 @@
             border: 4px solid #4a2e18;
             border-radius: 8px;
             box-shadow: 0 0 25px rgba(0,0,0,0.8);
-            max-width: 450px;
+            max-width: 500px;
             margin: 0 auto;
             box-sizing: border-box;
+            text-align: center;
         }
         .archivo-header {
-            text-align: center;
             border-bottom: 2px dashed #bc6c25;
             padding-bottom: 12px;
             margin-bottom: 15px;
@@ -33,16 +33,15 @@
         }
         .archivo-header h2 {
             font-family: 'Special Elite', cursive;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin: 8px 0 0 0;
             color: #faedcd;
         }
         .estampiya-frame {
             background: #1a110b;
-            padding: 12px;
+            padding: 10px;
             border: 2px solid #bc6c25;
             border-radius: 5px;
-            text-align: center;
             margin-bottom: 15px;
         }
         .estampiya-frame img {
@@ -61,9 +60,6 @@
             margin-bottom: 15px;
             text-align: left;
         }
-        .metadatos-caja div {
-            margin-bottom: 4px;
-        }
         .btn-descarga-mdw {
             background-color: #bc6c25;
             color: #2b1d11;
@@ -75,14 +71,13 @@
             cursor: pointer;
             width: 100%;
             border-radius: 4px;
-            transition: background 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: background 0.3s;
         }
         .btn-descarga-mdw:hover {
             background-color: #dda15e;
         }
         .archivo-footer {
-            text-align: center;
             font-size: 0.65rem;
             color: #d4a373;
             margin-top: 15px;
@@ -96,61 +91,90 @@
 
     <div class="archivo-mdw-container">
         <div class="archivo-header">
-            <div class="tag">NODO OFICIAL — POSTA 1001 (MDW)</div>
-            <h2>ARCHIVOS CLANDESTINOS MARDELWOOD</h2>
+            <div class="tag">POSTA DEL MILISEGUNDO — MDW 1001</div>
+            <h2>CERTIFICACIÓN ATÓMICA DE ESTAMPIYA</h2>
         </div>
 
         <div class="estampiya-frame">
-            <!-- Acá va el enlace directo de la imagen alojada en GitHub o Firebase -->
-            <img src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/image_4afc2b34.jpg" alt="EstampiYA: Mar de las Maravillas 1969">
+            <!-- Imagen base de la estampilla -->
+            <img id="imagen-base" src="Estanpiya_Geo_kongggg.jpg" alt="EstampiYA Kongggg">
         </div>
 
         <div class="metadatos-caja">
-            <div><strong>Pieza:</strong> EstampiYA! N° 1001 — Mar de las Maravillas</div>
-            <div><strong>Emisión:</strong> 1969 (Era Psicotrópica)</div>
-            <div><strong>Hash ID:</strong> <span id="hash-display">mdw-1001-f4c2b34</span></div>
-            <div><strong>Geolocalización:</strong> -38.0023, -57.5575 (MDW)</div>
-            <div><strong>Estado:</strong> Sincronizado en la Nube</div>
+            <div><strong>Nodo:</strong> Posta 1001 (Mardelwood)</div>
+            <div><strong>Sello:</strong> VentaniYA! Atómico GPS Verificado</div>
+            <div><strong>Línea de Tiempo:</strong> <span id="txt-tiempo">Generando milisegundos...</span></div>
+            <div><strong>Hash ID:</strong> MDW-1015F9B6-34FAF</div>
         </div>
 
-        <button class="btn-descarga-mdw" onclick="descargarEstampiyaConMetadatos()">
-            📥 DESCARGAR CON CERTIFICADO (MS)
+        <button class="btn-descarga-mdw" onclick="descargarEstampiyaConSello()">
+            📥 DESCARGAR ESTAMPIYA CON SELLO ATÓMICO (MS)
         </button>
 
         <div class="archivo-footer">
-            Sistema de Verificación Atómica — Mardelwood 2026
+            Sistema Inalterable de Archivo Histórico Clandestino
         </div>
     </div>
 
+    <!-- Canvas oculto para estampar los datos de milisegundos y sellos en la imagen antes de descargar -->
+    <canvas id="canvas-sello" style="display:none;"></canvas>
+
     <script>
-        function descargarEstampiyaConMetadatos() {
-            const timestampMilisegundos = Date.now();
-            const hashUnico = "mdw-1001-" + Math.random().toString(36).substring(2, 11);
+        // Mostrar fecha y milisegundos en tiempo real en la tarjeta
+        function actualizarRelojAtomico() {
+            const ahora = new Date();
+            const fechaStr = ahora.toLocaleDateString('es-AR');
+            const horas = String(ahora.getHours()).padStart(2, '0');
+            const minutos = String(ahora.getMinutes()).padStart(2, '0');
+            const segundos = String(ahora.getSeconds()).padStart(2, '0');
+            const milisegundos = String(ahora.getMilliseconds()).padStart(3, '0');
             
-            // Contenido del certificado digital que acompaña la descarga
-            const contenidoCertificado = `=========================================
-CERTIFICADO DE DESCARGA — POSTA 1001 (MDW)
-=========================================
-Proyecto: Mardelwood / EstampiYA!
-Pieza: Mar de las Maravillas (1969)
-Timestamp Atómico (Ms): ${timestampMilisegundos}
-Hash de Verificación: ${hashUnico}
-Nodo Geodésico: -38.0023, -57.5575
-Sello: Red Clandestina de Archivo Histórico
-=========================================`;
+            document.getElementById('txt-tiempo').innerText = `${fechaStr} ${horas}:${minutos}:${segundos}.${milisegundos}`;
+        }
+        setInterval(actualizarRelojAtomico, 50);
 
-            // Generar archivo de texto con el certificado milimétrico
-            const blob = new Blob([contenidoCertificado], { type: "text/plain;charset=utf-8" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `CERTIFICADO_POSTA1001_MDW_${timestampMilisegundos}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+        function descargarEstampiyaConSello() {
+            const img = document.getElementById('imagen-base');
+            const canvas = document.getElementById('canvas-sello');
+            const ctx = canvas.getContext('2d');
 
-            alert("¡Certificado y metadatos de la Posta 1001 descargados con éxito! Milisegundo registrado: " + timestampMilisegundos);
+            // Configurar tamaño real de la imagen
+            canvas.width = img.naturalWidth || 1200;
+            canvas.height = img.naturalHeight || 800;
+
+            // Dibujar la estampiya base
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            // Obtener datos exactos del milisegundo de descarga
+            const ahora = new Date();
+            const fStr = ahora.toLocaleDateString('es-AR');
+            const hStr = String(ahora.getHours()).padStart(2, '0');
+            const mStr = String(ahora.getMinutes()).padStart(2, '0');
+            const sStr = String(ahora.getSeconds()).padStart(2, '0');
+            const msStr = String(ahora.getMilliseconds()).padStart(3, '0');
+            const timestampCompleto = `${fStr} ${hStr}:${mStr}:${sStr}.${msStr}`;
+            const hashAleatorio = "MDW-" + Math.random().toString(36).substring(2, 10).toUpperCase() + "-1001";
+
+            // Estilo de texto superpuesto idéntico al sello de la imagen de referencia
+            ctx.fillStyle = "#00ffff"; // Celeste brillante estilo visor digital
+            ctx.font = "bold 24px 'Courier New', monospace";
+            ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
+            ctx.shadowBlur = 6;
+
+            // Pintar los datos atómicos sobre la imagen exportada
+            ctx.fillText(`FECHA: ${timestampCompleto}`, canvas.width - 700, canvas.height - 180);
+            ctx.fillText(`HASH-Q: ${hashAleatorio}`, canvas.width - 700, canvas.height - 140);
+
+            // Sello inferior extra de la Posta 1001
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 20px 'Courier New', monospace";
+            ctx.fillText("MDP. 1001 SAT — POSTA CLANDESTINA", canvas.width - 650, canvas.height - 90);
+
+            // Generar enlace de descarga automática del archivo de imagen modificado
+            const enlace = document.createElement('a');
+            enlace.download = `ESTAMPIYA_POSTA1001_${ahora.getTime()}.jpg`;
+            enlace.href = canvas.toDataURL('image/jpeg', 0.95);
+            enlace.click();
         }
     </script>
 
