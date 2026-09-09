@@ -152,10 +152,13 @@
                     const tarjeta = document.createElement('div');
                     tarjeta.className = 'tarjeta-estampiya';
                     
+                    // CORRECCIÓN: Lee indistintamente imagen_url o stamp_url
+                    const imagenSrc = data.imagen_url || data.stamp_url || '';
+                    
                     tarjeta.innerHTML = `
                         <div>
                             <div class="estampiya-frame">
-                                <img src="${data.imagen_url}" alt="${data.titulo}" crossorigin="anonymous" class="img-estampa-ref">
+                                <img src="${imagenSrc}" alt="${data.titulo || 'Estampa'}" crossorigin="anonymous" class="img-estampa-ref">
                             </div>
                             <div class="info-estampa">
                                 <h3>${data.titulo || 'EstampiYA! de Tiempo'}</h3>
