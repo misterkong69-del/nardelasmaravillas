@@ -136,10 +136,12 @@
         async function cargarVidrieraCompleta() {
             const contenedor = document.getElementById('vidriera-container');
             try {
+                console.time("⏱️ Tiempo de respuesta de Firestore");
                 const querySnapshot = await getDocs(collection(db, "estampiyas_mdw"));
+                console.timeEnd("⏱️ Tiempo de respuesta de Firestore");
                 
                 if (querySnapshot.empty) {
-                    contenedor.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: #ff6b6b; padding: 40px;">No hay estampiyas registradas todavía en la base. ¡Subí las primeras a GitHub y registralas en Firestore!</div>`;
+                    contenedor.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: #ff6b6b; padding: 40px;">No hay estampiyas registradas todavía en la base.</div>`;
                     return;
                 }
 
@@ -147,18 +149,15 @@
 
                 querySnapshot.forEach((docSnap) => {
                     const data = docSnap.data();
+                    const imagenSrc = data.imagen_url || data.stamp_url || '';
                     
-                    // Armar la tarjeta visual para cada estampiya en la vidriera
                     const tarjeta = document.createElement('div');
                     tarjeta.className = 'tarjeta-estampiya';
-                    
-                    // CORRECCIÓN: Lee indistintamente imagen_url o stamp_url
-                    const imagenSrc = data.imagen_url || data.stamp_url || '';
                     
                     tarjeta.innerHTML = `
                         <div>
                             <div class="estampiya-frame">
-                                <img src="${imagenSrc}" alt="${data.titulo || 'Estampa'}" crossorigin="anonymous" class="img-estampa-ref">
+                                <img src="${imagenSrc}" alt="${data.titulo || 'Estampa'}" crossorigin="anonymous" class="img-estampa-ref" onerror="console.error('⚠️ Falló la carga de imagen en tarjeta:', '${data.titulo}', 'URL intentada:', '${imagenSrc}')">
                             </div>
                             <div class="info-estampa">
                                 <h3>${data.titulo || 'EstampiYA! de Tiempo'}</h3>
@@ -175,7 +174,7 @@
 
             } catch (error) {
                 console.error("Error al cargar la vidriera:", error);
-                contenedor.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: #ff6b6b;">Error de conexión con la base central de la Posta 1001.</div>`;
+                contenedor.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: #ff6b6b;">Error de conexión con la base central.</div>`;
             }
         }
 
