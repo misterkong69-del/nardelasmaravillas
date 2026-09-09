@@ -57,6 +57,10 @@
             border: 2px solid #00ffff;
             border-radius: 4px;
             margin-bottom: 12px;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .estampiya-frame img {
             width: 100%;
@@ -113,27 +117,30 @@
     <canvas id="canvas-sello" style="display:none;"></canvas>
 
     <script>
-        // Listado oficial y blindado de piezas vinculadas a los archivos locales
+        // Listado de piezas. Probamos primero con el archivo principal y alternativas comunes si falla.
         const piezasVidriera = [
-            { titulo: "Auto 1", archivo: "auto1.png", posta: "1005", hash: "MDW-KONC-2026" },
-            { titulo: "mr.kong", archivo: "mr_kong.png", posta: "1002", hash: "MDW-2026-1003" },
-            { titulo: "EstampiYA! MardelasMaravillas", archivo: "estampiya.png", posta: "1001", hash: "MDW-KONG-2026" },
-            { titulo: "Chiwizorrin", archivo: "chiwizorrin.png", posta: "1002", hash: "MDW-2026-1002" },
-            { titulo: "Banda 1", archivo: "banda1.png", posta: "1002", hash: "MDW-BANDA1" }
+            { titulo: "Auto 1", archivos: ["auto1.png", "Auto1.png", "auto_1.png"], posta: "1005", hash: "MDW-KONC-2026" },
+            { titulo: "mr.kong", archivos: ["mr_kong.png", "mrkong.png", "Mr_Kong.png"], posta: "1002", hash: "MDW-2026-1003" },
+            { titulo: "EstampiYA! MardelasMaravillas", archivos: ["estampiya.png", "Estampiya.png", "estampiya_mdw.png"], posta: "1001", hash: "MDW-KONG-2026" },
+            { titulo: "Chiwizorrin", archivos: ["chiwizorrin.png", "Chiwizorrin.png", "chiwi.png"], posta: "1002", hash: "MDW-2026-1002" },
+            { titulo: "Banda 1", archivos: ["banda1.png", "Banda1.png", "banda_1.png"], posta: "1002", hash: "MDW-BANDA1" }
         ];
 
         function cargarVidrieraLocal() {
             const contenedor = document.getElementById('vidriera-container');
             contenedor.innerHTML = "";
 
-            piezasVidriera.forEach((data) => {
+            piezasVidriera.forEach((data, index) => {
                 const tarjeta = document.createElement('div');
                 tarjeta.className = 'tarjeta-estampiya';
                 
+                // Intentamos cargar el primer archivo de la lista
+                let archivoActualIndex = 0;
+
                 tarjeta.innerHTML = `
                     <div>
                         <div class="estampiya-frame">
-                            <img src="${data.archivo}" alt="${data.titulo}" crossorigin="anonymous" class="img-estampa-ref" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Imagen+No+Encontrada'; console.error('⚠️ No se encontró el archivo:', '${data.archivo}')">
+                            <img src="${data.archivos[archivoActualIndex]}" alt="${data.titulo}" crossorigin="anonymous" class="img-estampa-ref" id="img-${index}">
                         </div>
                         <div class="info-estampa">
                             <h3>${data.titulo}</h3>
@@ -146,19 +153,42 @@
                     </button>
                 `;
                 contenedor.appendChild(tarjeta);
+
+                // Manejo inteligente de error: si falla un nombre, prueba con el siguiente formato automáticamente
+                const imgElement = tarjeta.querySelector(`#img-${index}`);
+                imgElement.onerror = function() {
+                    archivoActualIndex++;
+                    if (archivoActualIndex < data.archivos.length) {
+                        this.src = data.archivos[archivoActualIndex];
+                    } else {
+                        this.style.display = 'none';
+                        this.parentElement.innerHTML = '<div style="color: #ff5555; font-size: 0.75rem; text-align:center; padding: 20px;">⚠️ Archivo no encontrado en GitHub.<br>Verificá el nombre exacto.</div>';
+                    }
+                };
             });
         }
 
         function descargarEstampiyaDeVidriera(btn) {
             const tarjeta = btn.closest('.tarjeta-estampiya');
             const img = tarjeta.querySelector('.img-estampa-ref');
+            
+            if (!img || img.tagName !== 'IMG') {
+                alert("No se puede descargar porque la imagen no está disponible.");
+                return;
+            }
+
             const canvas = document.getElementById('canvas-sello');
             const ctx = canvas.getContext('2d');
 
             canvas.width = img.naturalWidth || 1200;
             canvas.height = img.naturalHeight || 800;
 
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            try {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            } catch (e) {
+                alert("Error de seguridad del navegador al procesar la imagen. Probá recargando la página.");
+                return;
+            }
 
             const ahora = new Date();
             const fStr = ahora.toLocaleDateString('es-AR');
