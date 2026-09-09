@@ -106,74 +106,39 @@
 
     <main id="vidriera-container" class="vidriera-grid">
         <div style="grid-column: 1 / -1; text-align: center; color: #00ffff; padding: 40px;">
-            Sintonizando archivo clandestino con la nube...
+            Cargando piezas de la vidriera...
         </div>
     </main>
 
     <canvas id="canvas-sello" style="display:none;"></canvas>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDnLtvnb5IW1X-HbuC3uC0Dcf6BaojmndE",
-            authDomain: "mardelasmaravillas1.firebaseapp.com",
-            projectId: "mardelasmaravillas1",
-            storageBucket: "mardelasmaravillas1.firebasestorage.app",
-            messagingSenderId: "1041475872464",
-            appId: "1:1041475872464:web:87d00298ea219bdb4aa0d5",
-            measurementId: "G-F87RCG37BW"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Lista de respaldo fija para asegurar que banda1 y las demás aparezcan siempre
-        const piezasRespaldo = [
-            { titulo: "aldea1", imagen_url: "aldea1.png", id_posta: "1001", hash_base: "MDW-ALDEA1" },
-            { titulo: "estacion", imagen_url: "estacion.png", id_posta: "1001", hash_base: "MDW-ESTACION" },
-            { titulo: "querandi", imagen_url: "querandi.png", id_posta: "1001", hash_base: "MDW-QUERANDI" },
-            { titulo: "banda1", imagen_url: "banda1.png", id_posta: "1001", hash_base: "MDW-BANDA1" }
+    <script>
+        // Listado oficial y blindado de piezas vinculadas a los archivos locales
+        const piezasVidriera = [
+            { titulo: "Auto 1", archivo: "auto1.png", posta: "1005", hash: "MDW-KONC-2026" },
+            { titulo: "mr.kong", archivo: "mr_kong.png", posta: "1002", hash: "MDW-2026-1003" },
+            { titulo: "EstampiYA! MardelasMaravillas", archivo: "estampiya.png", posta: "1001", hash: "MDW-KONG-2026" },
+            { titulo: "Chiwizorrin", archivo: "chiwizorrin.png", posta: "1002", hash: "MDW-2026-1002" },
+            { titulo: "Banda 1", archivo: "banda1.png", posta: "1002", hash: "MDW-BANDA1" }
         ];
 
-        async function cargarVidrieraCompleta() {
+        function cargarVidrieraLocal() {
             const contenedor = document.getElementById('vidriera-container');
-            let listaPiezas = [];
-
-            try {
-                const querySnapshot = await getDocs(collection(db, "estampiyas_mdw"));
-                if (!querySnapshot.empty) {
-                    querySnapshot.forEach((docSnap) => {
-                        listaPiezas.push(docSnap.data());
-                    });
-                }
-            } catch (error) {
-                console.warn("Aviso: No se pudo conectar a Firestore, usando respaldo local.", error);
-            }
-
-            // Si Firestore devolvió menos de 4 o falló, completamos con el respaldo estático
-            if (listaPiezas.length < 4) {
-                listaPiezas = piezasRespaldo;
-            }
-
             contenedor.innerHTML = "";
 
-            listaPiezas.forEach((data) => {
-                const imagenSrc = data.imagen_url || data.stamp_url || '';
-                
+            piezasVidriera.forEach((data) => {
                 const tarjeta = document.createElement('div');
                 tarjeta.className = 'tarjeta-estampiya';
                 
                 tarjeta.innerHTML = `
                     <div>
                         <div class="estampiya-frame">
-                            <img src="${imagenSrc}" alt="${data.titulo || 'Estampa'}" crossorigin="anonymous" class="img-estampa-ref">
+                            <img src="${data.archivo}" alt="${data.titulo}" crossorigin="anonymous" class="img-estampa-ref" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Imagen+No+Encontrada'; console.error('⚠️ No se encontró el archivo:', '${data.archivo}')">
                         </div>
                         <div class="info-estampa">
-                            <h3>${data.titulo || 'EstampiYA! de Tiempo'}</h3>
-                            <div><strong>Posta:</strong> ${data.id_posta || '1001'} (MDW)</div>
-                            <div><strong>Hash Base:</strong> ${data.hash_base || 'MDW-GENERICO'}</div>
+                            <h3>${data.titulo}</h3>
+                            <div><strong>Posta:</strong> ${data.posta} (MDW)</div>
+                            <div><strong>Hash Base:</strong> ${data.hash}</div>
                         </div>
                     </div>
                     <button class="btn-descarga-mdw" onclick="descargarEstampiyaDeVidriera(this)">
@@ -184,10 +149,6 @@
             });
         }
 
-        window.onload = cargarVidrieraCompleta;
-    </script>
-
-    <script>
         function descargarEstampiyaDeVidriera(btn) {
             const tarjeta = btn.closest('.tarjeta-estampiya');
             const img = tarjeta.querySelector('.img-estampa-ref');
@@ -227,10 +188,12 @@
             ctx.fillText("ESTAMPIYA! DE TIEMPO — POSTA 1001", posX, posY + 110);
 
             const enlace = document.createElement('a');
-            enlace.download = `ESTAMPIYA_TIEMPO_1001_${ahora.getTime()}.jpg`;
+            enlace.download = `ESTAMPIYA_TIEMPO_${ahora.getTime()}.jpg`;
             enlace.href = canvas.toDataURL('image/jpeg', 0.98);
             enlace.click();
         }
+
+        window.onload = cargarVidrieraLocal;
     </script>
 
 </body>
